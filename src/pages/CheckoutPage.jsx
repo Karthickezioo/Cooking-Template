@@ -29,7 +29,7 @@ function CheckoutPage() {
 
         <div className="flex justify-center gap-6">
           <button
-            onClick={() => navigate(-1)}
+            onClick={handleGoBack}
             className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
           >
             Go Back
