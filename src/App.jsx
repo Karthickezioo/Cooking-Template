@@ -70,6 +70,7 @@ import RecipesView from "./features/recipes/RecipesView";
 import SocialInfo from "./features/social/SocialInfo";
 import TryRecipe from "./features/recipes/TryRecipe.jsx";
 import RecipeDetail from "./pages/RecipeDetails";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
@@ -105,6 +106,7 @@ function App() {
                 </div>
               }
             />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Routes>
         </main>
 

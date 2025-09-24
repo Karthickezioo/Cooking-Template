@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Recipe1 from "../assets/images/Mask-Group.svg";
 import Recipe2 from "../assets/images/Mask-Group-2.svg";
 import Recipe3 from "../assets/images/Mask-Group-3.svg";
@@ -8,6 +8,7 @@ import Recipe5 from "../assets/images/Mask-Group-5.svg";
 import Recipe6 from "../assets/images/Mask-Group-6.svg";
 import Recipe7 from "../assets/images/Mask-Group-7.svg";
 import Recipe8 from "../assets/images/Mask-Group-8.svg";
+
 import React from "react";
 
 import LikeUnChecked from "../assets/images/Group-852-1.svg";
@@ -41,11 +42,29 @@ const recipes = [
 ];
 
 function RecipeDetail() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [count, setCount] = React.useState(0);
   const handleClickAdd = () => setCount(count + 1);
-  const handleClickDelete = () => setCount(count - 1);
+  const handleClickDelete = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
+
+  const handleGoToCheckout = () => {
+    if (count > 0) {
+      navigate("/checkout", {
+        state: {
+          recipeId: recipe.id,
+          recipeTitle: recipe.title,
+          quantity: count,
+        },
+      });
+    }
+  };
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -68,23 +87,31 @@ function RecipeDetail() {
         <p className="text-lg text-gray-700">You opened recipe ID: {id}</p>
       </div>
 
-      {/* Right button */}
-      <div className="flex items-start  -translate-x-70 mt-[475px]">
-        <button
-          onClick={handleClickDelete}
-          className=" bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
-        >
-          -
-        </button>
-        <button
-          onClick={handleClickAdd}
-          className=" bg-blue-500 text-white px-6 py-3 rounded-lg ml-10 hover:bg-blue-600 transition"
-        >
-          +
-        </button>
-        <div className=" bg-blue-500 text-white px-6 py-3 rounded-lg ml-10 ">
-          {count}
+      <div className="flex flex-col">
+        {/* Right button */}
+        <div className="flex items-start  -translate-x-60 -translate-y-60 mt-[475px]">
+          <button
+            onClick={handleClickAdd}
+            className=" bg-neutral-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+          >
+            +
+          </button>
+          <div className=" bg-neutral-500 text-white px-6 py-3 rounded-lg ml-5 ">
+            {count}
+          </div>
+          <button
+            onClick={handleClickDelete}
+            className=" bg-neutral-500 text-white px-6 py-3 rounded-lg ml-5 hover:bg-blue-600 transition"
+          >
+            -
+          </button>
         </div>
+        <button
+          onClick={handleGoToCheckout}
+          className="bg-neutral-500 text-white px-6 py-3 -translate-y-50 -translate-x-60 rounded-lg hover:bg-green-700 transition"
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );
